@@ -1,26 +1,19 @@
-import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React from "react";
+import { Provider } from "react-redux";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
-const App=()=>{
+import { store } from "./src/redux/store";
+import AppNavigator from "./src/navigation/AppNavigator";
+
+export default function App() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Rakshak MVP</Text>
-    </View>
+    // Makes the Redux Store available throughout the application
+    <Provider store={store}>
+      {/* Handles safe areas like notches, status bar, etc. */}
+      <SafeAreaProvider>
+        {/* Entry point of the application */}
+        <AppNavigator />
+      </SafeAreaProvider>
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#000000',
-  },
-});
-
-export default App;
