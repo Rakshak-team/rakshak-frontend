@@ -12,14 +12,23 @@
  */
 
 export const ROUTES = {
+
+  // Startup Routes
+  SPLASH: "Splash",
+  PERMISSION: "Permission",
+  STARTUP: "Startup",
+
   // Authentication Routes
+  AUTH: "Auth",
   WELCOME: "Welcome",
   LOGIN: "Login",
   REGISTER: "Register",
 
   // Main Application Routes
+  MAIN_TABS: "MainTabs",
   HOME: "Home",
   INCIDENTS: "Incidents",
   PROFILE: "Profile",
   SETTINGS: "Settings",
+
 };

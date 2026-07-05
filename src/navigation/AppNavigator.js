@@ -4,44 +4,85 @@
  * Path: src/navigation/AppNavigator.js
  * ----------------------------------------------------------------------------
  * Description:
- * Root Navigator of the application.
+ * Root navigator of the Rakshak application.
  *
- * Responsible for deciding which navigation flow should be displayed:
- *
- * • AuthStack          -> User is NOT logged in.
- * • MainTabNavigator   -> User is logged in.
- *
- * The authentication state is managed using Redux.
+ * Responsibilities:
+ * • Launch the application
+ * • Display Splash Screen
+ * • Handle Permission Flow
+ * • Navigate to Authentication or Main App
  * ============================================================================
  */
 
+// Imports
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { useSelector } from "react-redux";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-// Navigation Flows
+// Navigation
 import AuthStack from "./AuthStack";
 import MainTabNavigator from "./MainTabNavigator";
+import { ROUTES } from "./routes";
 
-/**
- * Root Navigator
- *
- * Switches between Authentication Flow
- * and Main Application Flow based on
- * the user's authentication status.
- */
-export default function AppNavigator() {
+// Screens
+import SplashScreen from "../screens/splash/SplashScreen";
+import PermissionScreen from "../screens/permissions/PermissionScreen";
+import StartupScreen from "../screens/startup/StartupScreen";
 
-  // Read authentication state from Redux Store
-  const { isAuthenticated } = useSelector((state) => state.auth);
+// Create Native Stack Navigator
+const Stack = createNativeStackNavigator();
+
+// Root Navigator
+const AppNavigator = () => {
 
   return (
+
     <NavigationContainer>
-      {isAuthenticated ? (
-        <MainTabNavigator />
-      ) : (
-        <AuthStack />
-      )}
+
+      <Stack.Navigator
+        initialRouteName={ROUTES.SPLASH}
+        screenOptions={{
+          // Hide the default navigation header
+          headerShown: false,
+        }}
+      >
+
+        {/* Splash Screen */}
+        <Stack.Screen
+          name={ROUTES.SPLASH}
+          component={SplashScreen}
+        />
+
+        {/* Permission Screen */}
+        <Stack.Screen
+          name={ROUTES.PERMISSION}
+          component={PermissionScreen}
+        />
+
+        {/* Startup Screen */}
+        <Stack.Screen
+          name={ROUTES.STARTUP}
+          component={StartupScreen}
+        />
+
+        {/* Authentication Flow */}
+        <Stack.Screen
+          name={ROUTES.AUTH}
+          component={AuthStack}
+        />
+
+        {/* Main Application */}
+        <Stack.Screen
+          name={ROUTES.MAIN_TABS}
+          component={MainTabNavigator}
+        />
+
+      </Stack.Navigator>
+
     </NavigationContainer>
+
   );
-}
+
+};
+
+export default AppNavigator;

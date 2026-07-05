@@ -4,16 +4,16 @@
  * Path: src/navigation/MainTabNavigator.js
  * ----------------------------------------------------------------------------
  * Description:
- * Handles the main bottom tab navigation after a user logs in.
+ * Handles the main bottom tab navigation of the Rakshak application.
  *
- * Tabs:
- * - Home
- * - Incidents
- * - Profile
- * - Settings
+ * Responsibilities:
+ * • Display the main application tabs
+ * • Configure bottom tab navigation
+ * • Display tab icons
  * ============================================================================
  */
 
+// Imports
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -30,34 +30,35 @@ import SettingsScreen from "../screens/settings/SettingsScreen";
 // Create Bottom Tab Navigator
 const Tab = createBottomTabNavigator();
 
-/**
- * Main Bottom Tab Navigation
- */
-export default function MainTabNavigator() {
+// Main Bottom Tab Navigator
+const MainTabNavigator = () => {
+
   return (
+
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        // Hide default header
+
+        // Hide the default navigation header
         headerShown: false,
 
-        // Active Tab Color
+        // Bottom tab colors
         tabBarActiveTintColor: "#D32F2F",
-
-        // Inactive Tab Color
         tabBarInactiveTintColor: "#757575",
 
-        // Tab Bar Style
+        // Bottom tab styling
         tabBarStyle: {
           height: 65,
-          paddingBottom: 8,
           paddingTop: 8,
+          paddingBottom: 8,
         },
 
-        // Tab Icons
+        // Display icons for each tab
         tabBarIcon: ({ color, size }) => {
+
           let iconName;
 
           switch (route.name) {
+
             case ROUTES.HOME:
               iconName = "home";
               break;
@@ -76,6 +77,7 @@ export default function MainTabNavigator() {
 
             default:
               iconName = "circle";
+
           }
 
           return (
@@ -85,28 +87,40 @@ export default function MainTabNavigator() {
               color={color}
             />
           );
+
         },
+
       })}
     >
+
+      {/* Home Tab */}
       <Tab.Screen
         name={ROUTES.HOME}
         component={HomeScreen}
       />
 
+      {/* Incidents Tab */}
       <Tab.Screen
         name={ROUTES.INCIDENTS}
         component={IncidentsScreen}
       />
 
+      {/* Profile Tab */}
       <Tab.Screen
         name={ROUTES.PROFILE}
         component={ProfileScreen}
       />
 
+      {/* Settings Tab */}
       <Tab.Screen
         name={ROUTES.SETTINGS}
         component={SettingsScreen}
       />
+
     </Tab.Navigator>
+
   );
-}
+
+};
+
+export default MainTabNavigator;

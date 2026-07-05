@@ -1,7 +1,7 @@
 /**
  * ============================================================================
  * File: permissionService.js
- * Path: src/services/permission/permissionService.js
+ * Path: src/services/permissions/permissionService.js
  * ----------------------------------------------------------------------------
  * Description:
  * Centralized permission management service for the Rakshak application.
@@ -23,8 +23,8 @@
  * ============================================================================
  */
 
+// Imports
 import { Platform } from "react-native";
-
 import {
   check,
   request,
@@ -32,160 +32,150 @@ import {
   RESULTS,
 } from "react-native-permissions";
 
-/**
- * Permission Service
- *
- * Provides a single interface for checking and requesting
- * all runtime permissions used inside Rakshak.
- */
+// Permission Service
 const PermissionService = {
 
-  /**
-   * Check Camera Permission
-   *
-   * Returns:
-   * RESULTS.GRANTED
-   * RESULTS.DENIED
-   * RESULTS.BLOCKED
-   * RESULTS.UNAVAILABLE
-   */
+  // Check camera permission
   async checkCameraPermission() {
 
     if (Platform.OS !== "android") {
       return RESULTS.UNAVAILABLE;
     }
 
-    return check(
-      PERMISSIONS.ANDROID.CAMERA
-    );
+    return check(PERMISSIONS.ANDROID.CAMERA);
+
   },
 
-  /**
-   * Request Camera Permission
-   */
+  // Request camera permission
   async requestCameraPermission() {
 
     if (Platform.OS !== "android") {
       return RESULTS.UNAVAILABLE;
     }
 
-    return request(
-      PERMISSIONS.ANDROID.CAMERA
-    );
+    return request(PERMISSIONS.ANDROID.CAMERA);
+
   },
 
-  /**
-   * Check Foreground Location Permission
-   */
+  // Check foreground location permission
   async checkLocationPermission() {
 
     if (Platform.OS !== "android") {
       return RESULTS.UNAVAILABLE;
     }
 
-    return check(
-      PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
-    );
+    return check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+
   },
 
-  /**
-   * Request Foreground Location Permission
-   */
+  // Request foreground location permission
   async requestLocationPermission() {
 
     if (Platform.OS !== "android") {
       return RESULTS.UNAVAILABLE;
     }
 
-    return request(
-      PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
-    );
+    return request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+
   },
 
-  /**
-   * Check Background Location Permission
-   */
+  // Check background location permission
   async checkBackgroundLocationPermission() {
 
     if (Platform.OS !== "android") {
       return RESULTS.UNAVAILABLE;
     }
 
-    return check(
-      PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION
-    );
+    return check(PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION);
+
   },
 
-  /**
-   * Request Background Location Permission
-   */
+  // Request background location permission
   async requestBackgroundLocationPermission() {
 
     if (Platform.OS !== "android") {
       return RESULTS.UNAVAILABLE;
     }
 
-    return request(
-      PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION
-    );
+    return request(PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION);
+
   },
 
-  /**
-   * Check Notification Permission
-   */
+  // Check notification permission
   async checkNotificationPermission() {
 
     if (Platform.OS !== "android") {
       return RESULTS.UNAVAILABLE;
     }
 
-    return check(
-      PERMISSIONS.ANDROID.POST_NOTIFICATIONS
-    );
+    return check(PERMISSIONS.ANDROID.POST_NOTIFICATIONS);
+
   },
 
-  /**
-   * Request Notification Permission
-   */
+  // Request notification permission
   async requestNotificationPermission() {
 
     if (Platform.OS !== "android") {
       return RESULTS.UNAVAILABLE;
     }
 
-    return request(
-      PERMISSIONS.ANDROID.POST_NOTIFICATIONS
-    );
+    return request(PERMISSIONS.ANDROID.POST_NOTIFICATIONS);
+
   },
 
-  /**
-   * Check whether all mandatory
-   * permissions are granted.
-   *
-   * Returns:
-   * true  -> All permissions granted
-   * false -> One or more permissions missing
-   */
+  // Check if all required permissions are already granted
   async hasAllRequiredPermissions() {
 
-    const camera =
-      await this.checkCameraPermission();
-
-    const location =
-      await this.checkLocationPermission();
-
-    const notification =
-      await this.checkNotificationPermission();
+    const camera = await this.checkCameraPermission();
+    const location = await this.checkLocationPermission();
+    const notification = await this.checkNotificationPermission();
 
     return (
-
       camera === RESULTS.GRANTED &&
-
       location === RESULTS.GRANTED &&
-
       notification === RESULTS.GRANTED
-
     );
+
+  },
+
+  // Request all mandatory permissions required by the app
+  async requestAllPermissions() {
+
+    // Check current camera permission
+    let camera = await this.checkCameraPermission();
+
+    // Request camera permission if required
+    if (camera !== RESULTS.GRANTED) {
+      camera = await this.requestCameraPermission();
+    }
+
+    // Check current location permission
+    let location = await this.checkLocationPermission();
+
+    // Request location permission if required
+    if (location !== RESULTS.GRANTED) {
+      location = await this.requestLocationPermission();
+    }
+
+    // Check current notification permission
+    let notification = await this.checkNotificationPermission();
+
+    // Request notification permission if required
+    if (notification !== RESULTS.GRANTED) {
+      notification = await this.requestNotificationPermission();
+    }
+
+    // Return the final permission status
+    return {
+      granted:
+        camera === RESULTS.GRANTED &&
+        location === RESULTS.GRANTED &&
+        notification === RESULTS.GRANTED,
+
+      camera,
+      location,
+      notification,
+    };
 
   },
 

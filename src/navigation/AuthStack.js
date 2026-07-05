@@ -4,16 +4,16 @@
  * Path: src/navigation/AuthStack.js
  * ----------------------------------------------------------------------------
  * Description:
- * Handles the complete authentication navigation flow of the application.
- * It contains all authentication-related screens:
- * - Welcome Screen
- * - Login Screen
- * - Register Screen
+ * Handles the authentication flow of the Rakshak application.
  *
- * This stack is displayed only when the user is NOT authenticated.
+ * Responsibilities:
+ * • Display Welcome screen
+ * • Navigate to Login and Register screens
+ * • Manage authentication related navigation
  * ============================================================================
  */
 
+// Imports
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -28,15 +28,12 @@ import RegisterScreen from "../screens/auth/RegisterScreen";
 // Create Native Stack Navigator
 const Stack = createNativeStackNavigator();
 
-/**
- * Authentication Stack Navigator
- *
- * Controls the navigation flow for unauthenticated users.
- */
-export default function AuthStack() {
+// Authentication Stack
+const AuthStack = () => {
+
   return (
+
     <Stack.Navigator
-      // First screen shown when this stack loads
       initialRouteName={ROUTES.WELCOME}
       screenOptions={{
         // Hide the default navigation header
@@ -51,6 +48,7 @@ export default function AuthStack() {
         },
       }}
     >
+
       {/* Welcome Screen */}
       <Stack.Screen
         name={ROUTES.WELCOME}
@@ -68,6 +66,11 @@ export default function AuthStack() {
         name={ROUTES.REGISTER}
         component={RegisterScreen}
       />
+
     </Stack.Navigator>
+
   );
-}
+
+};
+
+export default AuthStack;
