@@ -15,7 +15,7 @@
  * • Camera
  * • Foreground Location
  * • Background Location
- * • Notifications
+ * • Notifications (Temporarily Skipped)
  *
  * Note:
  * This service ONLY manages permissions.
@@ -102,24 +102,22 @@ const PermissionService = {
   },
 
   // Check notification permission
+  // NOTE:
+  // Notification permission will be implemented properly
+  // during Firebase Cloud Messaging integration.
   async checkNotificationPermission() {
 
-    if (Platform.OS !== "android") {
-      return RESULTS.UNAVAILABLE;
-    }
-
-    return check(PERMISSIONS.ANDROID.POST_NOTIFICATIONS);
+    return RESULTS.GRANTED;
 
   },
 
   // Request notification permission
+  // NOTE:
+  // Notification permission will be implemented properly
+  // during Firebase Cloud Messaging integration.
   async requestNotificationPermission() {
 
-    if (Platform.OS !== "android") {
-      return RESULTS.UNAVAILABLE;
-    }
-
-    return request(PERMISSIONS.ANDROID.POST_NOTIFICATIONS);
+    return RESULTS.GRANTED;
 
   },
 

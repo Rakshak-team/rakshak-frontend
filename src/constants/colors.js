@@ -23,6 +23,7 @@ export const COLORS = {
   // Text Colors
   TEXT_PRIMARY: "#212121",
   TEXT_SECONDARY: "#616161",
+  TEXT_DISABLED: "#9E9E9E",
 
   // Border & Divider
   BORDER: "#E0E0E0",

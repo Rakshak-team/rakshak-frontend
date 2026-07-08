@@ -7,33 +7,20 @@
  * Centralized Design System for the Rakshak application.
  *
  * Exports:
- * - Colors
- * - Spacing
- * - Typography
- * - Border Radius
+ * • Colors
+ * • Spacing
+ * • Typography
+ * • Text Variants
+ * • Border Radius
  *
  * Import this file instead of importing individual constants
  * inside screens and components.
  * ============================================================================
  */
 
-import { COLORS } from "./colors";
-import { SPACING } from "./spacing";
-import { TYPOGRAPHY } from "./typography";
+import { COLORS } from './colors';
+import { SPACING } from './spacing';
+import { TYPOGRAPHY, TEXT_VARIANTS } from './typography';
+import { BORDER_RADIUS } from './borderRadius';
 
-/**
- * Standard border radius values
- * used throughout the application.
- */
-export const BORDER_RADIUS = {
-  SM: 8,
-  MD: 12,
-  LG: 16,
-  XL: 24,
-};
-
-export {
-  COLORS,
-  SPACING,
-  TYPOGRAPHY,
-};
+export { COLORS, SPACING, TYPOGRAPHY, TEXT_VARIANTS, BORDER_RADIUS };
