@@ -26,9 +26,17 @@
  */
 export const VALIDATION_MESSAGES = {
 
-  // Name
-  NAME_REQUIRED:
-    "Full name is required.",
+  // Volunteer Type
+  VOLUNTEER_TYPE_REQUIRED:
+    "Please select a volunteer type.",
+
+  // First Name
+  FIRST_NAME_REQUIRED:
+    "First name is required.",
+
+  // Last Name
+  LAST_NAME_REQUIRED:
+    "Last name is required.",
 
   // Email
   EMAIL_REQUIRED:
@@ -37,17 +45,7 @@ export const VALIDATION_MESSAGES = {
   INVALID_EMAIL:
     "Please enter a valid email address.",
 
-  // Password
-  PASSWORD_REQUIRED:
-    "Password is required.",
-
-  PASSWORD_INVALID:
-    "Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, one number, and one special character.",
-
-  PASSWORDS_DO_NOT_MATCH:
-    "Passwords do not match.",
-
-  // Phone
+  // Phone Number
   PHONE_REQUIRED:
     "Phone number is required.",
 
@@ -57,6 +55,29 @@ export const VALIDATION_MESSAGES = {
   // Blood Group
   BLOOD_GROUP_REQUIRED:
     "Please select your blood group.",
+
+  // Password
+  PASSWORD_REQUIRED:
+    "Password is required.",
+
+  PASSWORD_INVALID:
+    "Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, one number, and one special character.",
+
+  CONFIRM_PASSWORD_REQUIRED:
+    "Please confirm your password.",
+
+  PASSWORDS_DO_NOT_MATCH:
+    "Passwords do not match.",
+
+  // Medical Professional
+  MEDICAL_PROFESSION_REQUIRED:
+    "Please select your medical profession.",
+
+  ORGANIZATION_REQUIRED:
+    "Registered organization is required.",
+
+  REGISTRATION_NUMBER_REQUIRED:
+    "Registration / License number is required.",
 
 };
 

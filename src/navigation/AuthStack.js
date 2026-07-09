@@ -23,7 +23,7 @@ import { ROUTES } from './routes';
 // Authentication Screens
 import WelcomeScreen from '../screens/auth/Welcome/WelcomeScreen';
 import LoginScreen from '../screens/auth/Login/LoginScreen';
-import RegisterScreen from '../screens/auth/RegisterScreen';
+import RegisterScreen from '../screens/auth/Register';
 
 // Create Native Stack Navigator
 const Stack = createNativeStackNavigator();
