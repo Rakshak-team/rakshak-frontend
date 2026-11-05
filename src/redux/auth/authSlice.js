@@ -1,32 +1,134 @@
+/**
+ * ============================================================================
+ * File: authSlice.js
+ * Path: src/redux/auth/authSlice.js
+ * ----------------------------------------------------------------------------
+ * Description:
+ * Redux slice for authentication state management.
+ *
+ * Responsibilities:
+ * • Store authentication status
+ * • Store logged-in user information
+ * • Store JWT access and refresh tokens
+ * • Update access token after refresh
+ * • Clear authentication data on logout
+ *
+ * Notes:
+ * • No API calls
+ * • No UI logic
+ * • No Secure Storage
+ * • Only manages authentication state
+ * ============================================================================
+ */
+
+// Imports
 import { createSlice } from "@reduxjs/toolkit";
 
-// Initial authentication state when the app starts
+// ============================================================================
+// Initial State
+// ============================================================================
+
 const initialState = {
-  // Indicates whether the user is logged in
+
+  // Indicates whether the user is authenticated
   isAuthenticated: false,
 
-  // Stores logged-in user details
+  // Logged-in user information
   user: null,
 
   // JWT Access Token
   accessToken: null,
 
-  // JWT Refresh Token
+  // Refresh Token
   refreshToken: null,
+
 };
 
-// Create Authentication Slice
+// ============================================================================
+// Authentication Slice
+// ============================================================================
+
 const authSlice = createSlice({
-  // Unique name of this slice
+
+  // Slice Name
   name: "auth",
 
-  // Initial state of authentication
+  // Initial State
   initialState,
 
-  // Reducers (functions that modify the state)
-  // We'll add login, logout, etc. here later.
-  reducers: {},
+  // ==========================================================================
+  // Reducers
+  // ==========================================================================
+
+  reducers: {
+
+    /**
+     * ==========================================================================
+     * Login Success
+     * ==========================================================================
+     *
+     * Stores authenticated user information and tokens.
+     */
+    loginSuccess: (state, action) => {
+
+      state.isAuthenticated = true;
+
+      state.user = action.payload.user;
+
+      state.accessToken = action.payload.accessToken;
+
+      state.refreshToken = action.payload.refreshToken;
+
+    },
+
+    /**
+     * ==========================================================================
+     * Update Access Token
+     * ==========================================================================
+     *
+     * Updates the access token after a successful refresh.
+     */
+    updateAccessToken: (state, action) => {
+
+      state.accessToken = action.payload;
+
+    },
+
+    /**
+     * ==========================================================================
+     * Logout
+     * ==========================================================================
+     *
+     * Clears all authentication information.
+     */
+    logout: (state) => {
+
+      state.isAuthenticated = false;
+
+      state.user = null;
+
+      state.accessToken = null;
+
+      state.refreshToken = null;
+
+    },
+
+  },
+
 });
 
-// Export reducer to be registered in Redux Store
+// ============================================================================
+// Exports
+// ============================================================================
+
+export const {
+
+  loginSuccess,
+
+  updateAccessToken,
+
+  logout,
+
+} = authSlice.actions;
+
 export default authSlice.reducer;

@@ -1,3 +1,4 @@
+
 /**
  * ============================================================================
  * File: AppScreen.js
@@ -16,7 +17,7 @@
  * ============================================================================
  */
 
-import React from "react";
+import React from 'react';
 
 import {
   KeyboardAvoidingView,
@@ -25,43 +26,29 @@ import {
   StatusBar,
   StyleSheet,
   View,
-} from "react-native";
+} from 'react-native';
 
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import {
   COLORS,
   SPACING,
-} from "../../constants/theme";
+} from '../../constants/theme';
 
-/**
- * Reusable Screen Component
- *
- * Props:
- * children
- * scrollable
- * keyboardAware
- * padded
- * backgroundColor
- * statusBarStyle
- * safeAreaEdges
- * style
- */
 export default function AppScreen({
   children,
   scrollable = false,
   keyboardAware = false,
   padded = true,
   backgroundColor = COLORS.BACKGROUND,
-  statusBarStyle = "dark-content",
-  safeAreaEdges = ["top", "bottom"],
+  statusBarStyle = 'dark-content',
+  safeAreaEdges = ['top', 'bottom'],
   style,
 }) {
-
   const content = (
     <View
       style={[
-        styles.content,
+        scrollable ? styles.scrollableContent : styles.content,
         padded && styles.padded,
         style,
       ]}
@@ -72,8 +59,10 @@ export default function AppScreen({
 
   const screen = scrollable ? (
     <ScrollView
+      style={styles.flex}
       contentContainerStyle={styles.scrollContent}
       keyboardShouldPersistTaps="handled"
+      keyboardDismissMode="on-drag"
       showsVerticalScrollIndicator={false}
     >
       {content}
@@ -83,47 +72,33 @@ export default function AppScreen({
   );
 
   return (
-
     <SafeAreaView
       edges={safeAreaEdges}
       style={[
         styles.container,
-        {
-          backgroundColor,
-        },
+        { backgroundColor },
       ]}
     >
-
       <StatusBar
         barStyle={statusBarStyle}
         backgroundColor={backgroundColor}
       />
 
       {keyboardAware ? (
-
         <KeyboardAvoidingView
           style={styles.flex}
-          behavior={
-            Platform.OS === "ios"
-              ? "padding"
-              : undefined
-          }
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
           {screen}
         </KeyboardAvoidingView>
-
       ) : (
         screen
       )}
-
     </SafeAreaView>
-
   );
-
 }
 
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
   },
@@ -136,12 +111,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  padded: {
-    paddingHorizontal: SPACING.LG,
+  scrollableContent: {
+    flexGrow: 1,
   },
 
   scrollContent: {
     flexGrow: 1,
   },
 
+  padded: {
+    paddingHorizontal: SPACING.LG,
+  },
 });

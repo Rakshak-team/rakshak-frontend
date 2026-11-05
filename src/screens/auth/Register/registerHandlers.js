@@ -82,6 +82,7 @@ export const handleRegister = async (formData) => {
       bloodGroup: formData.bloodGroup,
 
       password: formData.password,
+      confirmPassword: formData.confirmPassword,
 
       medicalProfession:
         formData.volunteerType === "MEDICAL"
@@ -113,14 +114,22 @@ export const handleRegister = async (formData) => {
 
   } catch (error) {
 
-    return createErrorResponse({
+    console.log("========== REGISTRATION ERROR ==========");
+    console.log("Error message:", error?.message);
+    console.log("HTTP status:", error?.response?.status);
+    console.log("Backend response:", error?.response?.data);
+    console.log("Request URL:", error?.config?.url);
+    console.log("Request method:", error?.config?.method);
+    console.log("=========================================");
 
+    return createErrorResponse({
       message:
         error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        error?.message ||
         AUTH_MESSAGES.REGISTER_FAILED,
 
-    });
 
-  }
+  });
 
-};
+}}

@@ -16,6 +16,7 @@
  * • No UI
  * • No Navigation
  * • No React State
+ * • No Redux
  * • No Styles
  * ============================================================================
  */
@@ -38,6 +39,10 @@ import {
   createSuccessResponse,
   createErrorResponse,
 } from "../../../utils";
+
+import {
+  mapAuthResponse,
+} from "../../../utils/auth/authMapper";
 
 /**
  * ============================================================================
@@ -75,7 +80,7 @@ export const handleLogin = async ({
      */
     const response = await loginUser({
 
-      email: email.trim(),
+      email: email.trim().toLowerCase(),
 
       password,
 
@@ -93,13 +98,15 @@ export const handleLogin = async ({
     });
 
     /**
+     * ==========================================================================
      * Success Response
+     * ==========================================================================
      */
     return createSuccessResponse({
 
       message: AUTH_MESSAGES.LOGIN_SUCCESS,
 
-      data: response,
+      data: mapAuthResponse(response),
 
     });
 

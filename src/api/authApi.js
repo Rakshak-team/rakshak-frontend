@@ -73,11 +73,13 @@ export const refreshToken = (refreshTokenData) => {
  * Logout User
  * ============================================================================
  *
+ * @param {Object} refreshTokenData
  * @returns {Promise}
  */
-export const logout = () => {
+export const logout = (refreshTokenData) => {
   return axiosClient.post(
-    AUTH_ENDPOINTS.LOGOUT
+    AUTH_ENDPOINTS.LOGOUT,
+    refreshTokenData
   );
 };
 

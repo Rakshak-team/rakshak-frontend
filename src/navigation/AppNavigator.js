@@ -1,3 +1,4 @@
+
 /**
  * ============================================================================
  * File: AppNavigator.js
@@ -11,13 +12,21 @@
  * • Display Splash Screen
  * • Handle Permission Flow
  * • Navigate to Authentication or Main App
+ * • Handle incident reporting navigation
+ * • Handle incident details navigation
  * ============================================================================
  */
 
 // Imports
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+import {
+  NavigationContainer,
+} from "@react-navigation/native";
+
+import {
+  createNativeStackNavigator,
+} from "@react-navigation/native-stack";
 
 // Navigation
 import AuthStack from "./AuthStack";
@@ -28,11 +37,19 @@ import { ROUTES } from "./routes";
 import SplashScreen from "../screens/splash/SplashScreen";
 import PermissionScreen from "../screens/permissions/PermissionScreen";
 import StartupScreen from "../screens/startup/StartupScreen";
+import ReportIncidentScreen from "../screens/incidents/ReportIncidentScreen";
+import IncidentDetailsScreen from "../screens/incidents/IncidentDetailsScreen";
 
+// ============================================================================
 // Create Native Stack Navigator
+// ============================================================================
+
 const Stack = createNativeStackNavigator();
 
+// ============================================================================
 // Root Navigator
+// ============================================================================
+
 const AppNavigator = () => {
 
   return (
@@ -42,39 +59,74 @@ const AppNavigator = () => {
       <Stack.Navigator
         initialRouteName={ROUTES.SPLASH}
         screenOptions={{
-          // Hide the default navigation header
+
+          // Hide default navigation header
           headerShown: false,
+
         }}
       >
 
-        {/* Splash Screen */}
+        {/* ================================================================
+            Splash Screen
+        ================================================================ */}
+
         <Stack.Screen
           name={ROUTES.SPLASH}
           component={SplashScreen}
         />
 
-        {/* Permission Screen */}
+        {/* ================================================================
+            Permission Screen
+        ================================================================ */}
+
         <Stack.Screen
           name={ROUTES.PERMISSION}
           component={PermissionScreen}
         />
 
-        {/* Startup Screen */}
+        {/* ================================================================
+            Startup Screen
+        ================================================================ */}
+
         <Stack.Screen
           name={ROUTES.STARTUP}
           component={StartupScreen}
         />
 
-        {/* Authentication Flow */}
+        {/* ================================================================
+            Authentication Flow
+        ================================================================ */}
+
         <Stack.Screen
           name={ROUTES.AUTH}
           component={AuthStack}
         />
 
-        {/* Main Application */}
+        {/* ================================================================
+            Main Application
+        ================================================================ */}
+
         <Stack.Screen
           name={ROUTES.MAIN_TABS}
           component={MainTabNavigator}
+        />
+
+        {/* ================================================================
+            Incident Reporting Screen
+        ================================================================ */}
+
+        <Stack.Screen
+          name={ROUTES.REPORT_INCIDENT}
+          component={ReportIncidentScreen}
+        />
+
+        {/* ================================================================
+            Incident Details Screen
+        ================================================================ */}
+
+        <Stack.Screen
+          name={ROUTES.INCIDENT_DETAILS}
+          component={IncidentDetailsScreen}
         />
 
       </Stack.Navigator>
@@ -84,5 +136,9 @@ const AppNavigator = () => {
   );
 
 };
+
+// ============================================================================
+// Export
+// ============================================================================
 
 export default AppNavigator;

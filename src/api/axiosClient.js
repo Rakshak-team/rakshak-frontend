@@ -17,24 +17,7 @@
 
 // Imports
 import axios from "axios";
-
-/**
- * ============================================================================
- * Backend Base URL
- * ----------------------------------------------------------------------------
- * Replace this URL according to the environment.
- *
- * Android Emulator:
- * http://10.0.2.2:8080
- *
- * Physical Android Device:
- * http://YOUR_LOCAL_IP:8080
- *
- * Example:
- * http://192.168.1.10:8080
- * ============================================================================
- */
-const BASE_URL = "http://YOUR_LOCAL_IP:8080";
+import { BASE_URL } from "../config/env";
 
 /**
  * ============================================================================

@@ -135,10 +135,29 @@ export const logoutUser = async () => {
 
   try {
 
-    await logout();
+    /**
+     * Retrieve Stored Tokens
+     */
+    const tokens = await getTokens();
+
+    /**
+     * Notify Backend To Invalidate Refresh Token
+     */
+    if (tokens?.refreshToken) {
+
+      await logout({
+
+        refreshToken: tokens.refreshToken,
+
+      });
+
+    }
 
   } finally {
 
+    /**
+     * Clear Secure Storage
+     */
     await Keychain.resetGenericPassword({
 
       service: STORAGE_KEYS.USER_CREDENTIALS,

@@ -1,3 +1,4 @@
+
 /**
  * ============================================================================
  * File: MainTabNavigator.js
@@ -17,10 +18,10 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { TAB_ICONS } from './tabIcons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { TAB_ICONS } from './tabIcons';
 import { COLORS, SPACING } from '../constants/theme';
-// Route Constants
 import { ROUTES } from './routes';
 
 // Screens
@@ -34,6 +35,8 @@ const Tab = createBottomTabNavigator();
 
 // Main Bottom Tab Navigator
 const MainTabNavigator = () => {
+  const insets = useSafeAreaInsets();
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -44,11 +47,11 @@ const MainTabNavigator = () => {
         tabBarActiveTintColor: COLORS.PRIMARY,
         tabBarInactiveTintColor: COLORS.TEXT_DISABLED,
 
-        // Bottom tab styling
+        // Bottom tab styling with safe area support
         tabBarStyle: {
-          height: 64,
+          height: 64 + insets.bottom,
           paddingTop: SPACING.SM,
-          paddingBottom: SPACING.SM,
+          paddingBottom: insets.bottom,
         },
 
         // Display icons for each tab
@@ -56,7 +59,11 @@ const MainTabNavigator = () => {
           const iconName = TAB_ICONS[route.name] || 'circle';
 
           return (
-            <MaterialCommunityIcons name={iconName} size={size} color={color} />
+            <MaterialCommunityIcons
+              name={iconName}
+              size={size}
+              color={color}
+            />
           );
         },
       })}

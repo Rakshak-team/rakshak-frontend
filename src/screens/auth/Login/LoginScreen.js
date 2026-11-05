@@ -10,21 +10,20 @@
  * • Render login UI
  * • Manage local UI state
  * • Trigger authentication
+ * • Update Redux authentication state
  * • Navigate to Register screen
  * • Display validation/API messages
  * ============================================================================
  */
 
 // Imports
-import React, { useState } from "react";
-import { View } from "react-native";
+import React, { useState } from 'react';
+import { View } from 'react-native';
+import { useDispatch } from 'react-redux';
 
-import { ROUTES } from "../../../navigation/routes";
+import { ROUTES } from '../../../navigation/routes';
 
-import {
-  COLORS,
-  TEXT_VARIANTS,
-} from "../../../constants/theme";
+import { COLORS, TEXT_VARIANTS } from '../../../constants/theme';
 
 import {
   AppButton,
@@ -34,14 +33,13 @@ import {
   AppScreen,
   AppSnackbar,
   AppText,
-} from "../../../components/ui";
+} from '../../../components/ui';
 
-import {
-  handleForgotPassword,
-  handleLogin,
-} from "./loginHandlers";
+import { handleForgotPassword, handleLogin } from './loginHandlers';
 
-import styles from "./loginStyles";
+import { loginSuccess } from '../../../redux/auth/authSlice';
+
+import styles from './loginStyles';
 
 /**
  * ============================================================================
@@ -49,15 +47,14 @@ import styles from "./loginStyles";
  * ============================================================================
  */
 const LoginScreen = ({ navigation }) => {
-
   /**
    * ==========================================================================
    * Form State
    * ==========================================================================
    */
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
 
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState('');
 
   const [errors, setErrors] = useState({});
 
@@ -68,14 +65,18 @@ const LoginScreen = ({ navigation }) => {
    */
   const [loading, setLoading] = useState(false);
 
-  const [snackbarVisible, setSnackbarVisible] =
-    useState(false);
+  const [snackbarVisible, setSnackbarVisible] = useState(false);
 
-  const [snackbarMessage, setSnackbarMessage] =
-    useState("");
+  const [snackbarMessage, setSnackbarMessage] = useState('');
 
-  const [snackbarType, setSnackbarType] =
-    useState("info");
+  const [snackbarType, setSnackbarType] = useState('info');
+
+  /**
+   * ==========================================================================
+   * Redux
+   * ==========================================================================
+   */
+  const dispatch = useDispatch();
 
   /**
    * ==========================================================================
@@ -83,15 +84,12 @@ const LoginScreen = ({ navigation }) => {
    * ==========================================================================
    */
   const onLoginPress = async () => {
-
     setLoading(true);
 
     const result = await handleLogin({
-
       email,
 
       password,
-
     });
 
     setLoading(false);
@@ -100,21 +98,17 @@ const LoginScreen = ({ navigation }) => {
      * Validation / API Failed
      */
     if (!result.success) {
-
       setErrors(result.errors || {});
 
       if (result.message) {
-
         setSnackbarMessage(result.message);
 
-        setSnackbarType("error");
+        setSnackbarType('error');
 
         setSnackbarVisible(true);
-
       }
 
       return;
-
     }
 
     /**
@@ -123,21 +117,25 @@ const LoginScreen = ({ navigation }) => {
     setErrors({});
 
     /**
+     * ==========================================================================
+     * Update Authentication State
+     * ==========================================================================
+     */
+    dispatch(loginSuccess(result.data));
+
+    /**
      * Success Message
      */
     setSnackbarMessage(result.message);
 
-    setSnackbarType("success");
+    setSnackbarType('success');
 
     setSnackbarVisible(true);
 
     /**
      * Navigate To Main Application
      */
-    navigation.replace(
-      ROUTES.MAIN_TABS
-    );
-
+    navigation.replace(ROUTES.MAIN_TABS);
   };
 
   /**
@@ -146,15 +144,13 @@ const LoginScreen = ({ navigation }) => {
    * ==========================================================================
    */
   const onForgotPasswordPress = () => {
-
     const result = handleForgotPassword();
 
     setSnackbarMessage(result.message);
 
-    setSnackbarType("info");
+    setSnackbarType('info');
 
     setSnackbarVisible(true);
-
   };
 
   /**
@@ -163,35 +159,20 @@ const LoginScreen = ({ navigation }) => {
    * ==========================================================================
    */
   return (
-
-    <AppScreen
-      scrollable
-      keyboardAware
-    >
-
+    <AppScreen scrollable keyboardAware>
       <View style={styles.container}>
-
         {/* ==========================================================
             Header
         ========================================================== */}
 
         <View style={styles.header}>
-
           <AppLogo />
 
-          <AppText
-            variant={TEXT_VARIANTS.TITLE}
-          >
-            Welcome Back
-          </AppText>
+          <AppText variant={TEXT_VARIANTS.TITLE}>Welcome Back</AppText>
 
-          <AppText
-            variant={TEXT_VARIANTS.BODY}
-            color={COLORS.TEXT_SECONDARY}
-          >
+          <AppText variant={TEXT_VARIANTS.BODY} color={COLORS.TEXT_SECONDARY}>
             Sign in to continue using Rakshak.
           </AppText>
-
         </View>
 
         {/* ==========================================================
@@ -199,7 +180,6 @@ const LoginScreen = ({ navigation }) => {
         ========================================================== */}
 
         <View style={styles.form}>
-
           <AppInput
             label="Email"
             placeholder="Enter your email"
@@ -226,12 +206,7 @@ const LoginScreen = ({ navigation }) => {
             Forgot Password?
           </AppLink>
 
-          <AppButton
-            title="Login"
-            loading={loading}
-            onPress={onLoginPress}
-          />
-
+          <AppButton title="Login" loading={loading} onPress={onLoginPress} />
         </View>
 
         {/* ==========================================================
@@ -239,25 +214,12 @@ const LoginScreen = ({ navigation }) => {
         ========================================================== */}
 
         <View style={styles.registerContainer}>
+          <AppText variant={TEXT_VARIANTS.BODY}>Don't have an account?</AppText>
 
-          <AppText
-            variant={TEXT_VARIANTS.BODY}
-          >
-            Don't have an account?
-          </AppText>
-
-          <AppLink
-            onPress={() =>
-              navigation.navigate(
-                ROUTES.REGISTER
-              )
-            }
-          >
+          <AppLink onPress={() => navigation.navigate(ROUTES.REGISTER)}>
             Create Account
           </AppLink>
-
         </View>
-
       </View>
 
       {/* ==========================================================
@@ -268,15 +230,10 @@ const LoginScreen = ({ navigation }) => {
         visible={snackbarVisible}
         message={snackbarMessage}
         type={snackbarType}
-        onDismiss={() =>
-          setSnackbarVisible(false)
-        }
+        onDismiss={() => setSnackbarVisible(false)}
       />
-
     </AppScreen>
-
   );
-
 };
 
 export default LoginScreen;

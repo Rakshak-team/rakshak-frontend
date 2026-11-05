@@ -8,12 +8,9 @@
  * have been granted.
  *
  * Responsibilities:
- * • Check user authentication
- * • Navigate to AuthStack or MainTabNavigator
- *
- * Note:
- * Authentication logic will be implemented once backend integration
- * is completed.
+ * • Restore previous authentication session
+ * • Update Redux authentication state
+ * • Navigate to Authentication or Main Application
  * ============================================================================
  */
 
@@ -25,40 +22,75 @@ import {
   StyleSheet,
 } from "react-native";
 
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { ROUTES } from "../../navigation/routes";
+
+import { loginSuccess } from "../../redux/auth/authSlice";
+
+import { restoreSession } from "./startupHandler";
 
 // Startup Screen Component
 const StartupScreen = ({ navigation }) => {
 
-  // Read authentication state from Redux
-  const { isAuthenticated } = useSelector(
-    (state) => state.auth
-  );
+  /**
+   * ==========================================================================
+   * Redux
+   * ==========================================================================
+   */
+  const dispatch = useDispatch();
 
+  /**
+   * ==========================================================================
+   * Restore Session
+   * ==========================================================================
+   */
   useEffect(() => {
 
     initializeApp();
 
   }, []);
 
-  // Decide where the user should go
-  const initializeApp = () => {
+  /**
+   * ==========================================================================
+   * Initialize Application
+   * ==========================================================================
+   */
+  const initializeApp = async () => {
 
-    if (isAuthenticated) {
+    const result = await restoreSession();
 
-      // User already logged in
-      navigation.replace(ROUTES.MAIN_TABS);
+    /**
+     * Valid Session
+     */
+    if (result.success) {
+
+      dispatch(
+        loginSuccess(result.data)
+      );
+
+      navigation.replace(
+        ROUTES.MAIN_TABS
+      );
+
       return;
 
     }
 
-    // User needs to login/register
-    navigation.replace(ROUTES.AUTH);
+    /**
+     * No Session / Session Expired
+     */
+    navigation.replace(
+      ROUTES.AUTH
+    );
 
   };
 
+  /**
+   * ==========================================================================
+   * Render UI
+   * ==========================================================================
+   */
   return (
 
     <View style={styles.container}>
@@ -77,7 +109,6 @@ const StartupScreen = ({ navigation }) => {
 // Styles
 const styles = StyleSheet.create({
 
-  // Main container
   container: {
     flex: 1,
     justifyContent: "center",

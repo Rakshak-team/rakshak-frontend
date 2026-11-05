@@ -1,3 +1,4 @@
+
 /**
  * ============================================================================
  * File: endpoints.js
@@ -68,6 +69,9 @@ export const INCIDENT_ENDPOINTS = {
   // Get All Incidents
   GET_ALL: "/incidents",
 
+  // Get Incidents Reported By Logged In User
+  GET_MY: "/incidents/my",
+
   // Get Incident Details
   GET_BY_ID: "/incidents/:id",
 
@@ -136,5 +140,17 @@ export const AI_ENDPOINTS = {
 
   // Predict Incident Severity
   PREDICT_SEVERITY: "/ai/predict-severity",
+
+};
+
+/**
+ * ============================================================================
+ * Upload Endpoints
+ * ============================================================================
+ */
+export const UPLOAD_ENDPOINTS = {
+
+  // Upload Incident Image
+  INCIDENT_IMAGE: "/api/upload",
 
 };
